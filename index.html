@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Antigravity Control Center — Device Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Top Header Bar -->
+    <header class="app-header glass-panel">
+      <div class="brand">
+        <div class="brand-orbit">
+          <div class="orbit-dot"></div>
+        </div>
+        <h1>ANTIGRAVITY<span class="brand-sub">CONTROL CENTER</span></h1>
+      </div>
+
+      <div class="header-status">
+        <div class="live-indicator">
+          <span class="pulse-dot"></span>
+          <span id="detection-status-text">Hardware‑Scanner aktiv</span>
+        </div>
+        <button id="rescan-devices-btn" class="btn btn-secondary btn-sm" title="Geräte neu scannen">
+          <span class="btn-icon">🔄</span> Scan
+        </button>
+      </div>
+
+      <!-- Profile Controls -->
+      <div class="profile-actions">
+        <div class="profile-chip">
+          <label for="profile-name-input" class="profile-label">PROFIL</label>
+          <input type="text" id="profile-name-input" class="profile-input" value="Standard">
+        </div>
+        <button id="save-profile-btn" class="btn btn-primary" title="Profil speichern">Speichern</button>
+        <button id="export-profile-btn" class="btn btn-ghost" title="Als JSON exportieren">Export</button>
+        <button id="import-profile-btn" class="btn btn-ghost" title="JSON importieren">Import</button>
+        <input type="file" id="import-file-input" accept=".json" style="display: none;">
+      </div>
+    </header>
+
+    <!-- Main Grid -->
+    <div class="main-content">
+      <!-- Left Sidebar: Discovered & Configured Devices -->
+      <aside class="sidebar glass-panel">
+        <div class="sidebar-section-title">
+          <span>ERFASSTE GERÄTE</span>
+          <span class="badge-count" id="device-count-badge">0</span>
+        </div>
+        <div class="device-list" id="device-sidebar-list">
+          <!-- Populated dynamically by DeviceManager & Hardware Scanner -->
+        </div>
+
+        <!-- Active Device Module Navigator -->
+        <div class="sidebar-section-title" style="margin-top: 20px;">
+          <span>MODUL‑AUSWAHL</span>
+        </div>
+        <nav class="module-nav" id="module-nav-list">
+          <!-- Populated based on active device -->
+        </nav>
+      </aside>
+
+      <!-- Right Main Workspace / Viewport -->
+      <main class="viewport glass-panel" id="main-viewport">
+        <!-- Rendered dynamically by active module -->
+      </main>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
