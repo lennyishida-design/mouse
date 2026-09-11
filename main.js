@@ -3,7 +3,7 @@
  * Connects DeviceManager, Hardware Scanner, and Feature Modules.
  */
 
-import { DeviceManager } from "./modules/deviceManager.js";
+import { DeviceManager } from "./modules/devicemanager.js";
 import { MouseModule } from "./modules/mouse.js";
 import { KeyboardModule } from "./modules/keyboard.js";
 import { HeadsetModule } from "./modules/headset.js";
