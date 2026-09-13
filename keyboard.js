@@ -1,6 +1,5 @@
 /**
- * Antigravity Keyboard Configuration Module
- * Key Remapping, Macros, RGB Zones, Rapid Trigger & Snap Tap
+ * Keyboard Configuration Module
  */
 
 export class KeyboardModule {
@@ -23,22 +22,21 @@ export class KeyboardModule {
       <div class="module-panel">
         <div class="panel-header">
           <div>
-            <h2 class="panel-title">Tastatur & Schalter</h2>
-            <p class="panel-desc">Analoge Tastenmechanik, Rapid Trigger, SOCD Snap Tap und RGB‑Zonen</p>
+            <h2 class="panel-title">${device.name}</h2>
+            <p class="panel-desc">Optische Schalter, Rapid Trigger, SOCD Snap Tap und RGB‑Zonen</p>
           </div>
         </div>
 
-        <!-- Rapid Trigger & Snap Tap -->
         <div class="grid-2">
           <div class="card-box">
             <div class="card-title">
               <span>Rapid Trigger & Betätigung</span>
-              <span class="badge-value" id="actuation-val">${config.actuationPoint || 1.2} mm</span>
+              <span class="badge-value" id="actuation-val">${config.actuationPoint || 1.0} mm</span>
             </div>
             
             <div class="slider-group">
               <label class="switch-label" style="font-size: 0.75rem; color: var(--text-muted);">Betätigungspunkt (Actuation Point)</label>
-              <input type="range" min="0.1" max="4.0" step="0.1" value="${config.actuationPoint || 1.2}" class="range-slider" id="actuation-slider">
+              <input type="range" min="0.1" max="4.0" step="0.1" value="${config.actuationPoint || 1.0}" class="range-slider" id="actuation-slider">
             </div>
 
             <div class="switch-control" style="margin-top: 12px;">
@@ -55,9 +53,9 @@ export class KeyboardModule {
             <div class="slider-group" style="margin-top: 10px;">
               <div style="display: flex; justify-content: space-between;">
                 <span style="font-size: 0.75rem; color: var(--text-muted);">RT‑Sensitivität</span>
-                <span style="font-size: 0.75rem; font-weight: 600;" id="rt-sens-val">${config.rapidTriggerSensitivity || 0.15} mm</span>
+                <span style="font-size: 0.75rem; font-weight: 600;" id="rt-sens-val">${config.rapidTriggerSensitivity || 0.1} mm</span>
               </div>
-              <input type="range" min="0.05" max="2.0" step="0.05" value="${config.rapidTriggerSensitivity || 0.15}" class="range-slider" id="rt-sens-slider">
+              <input type="range" min="0.05" max="2.0" step="0.05" value="${config.rapidTriggerSensitivity || 0.1}" class="range-slider" id="rt-sens-slider">
             </div>
           </div>
 
@@ -81,53 +79,12 @@ export class KeyboardModule {
               <span>RGB‑Zonen</span>
             </div>
             <div style="display: flex; justify-content: space-between; gap: 8px;">
-              ${Object.entries(config.rgbZones || { wasd: "#3b82f6", arrows: "#3b82f6", main: "#10b981", functionKeys: "#f59e0b" }).map(([zone, color]) => `
+              ${Object.entries(config.rgbZones || { wasd: "#00e5ff", arrows: "#00e5ff", main: "#ff0055", functionKeys: "#ffaa00" }).map(([zone, color]) => `
                 <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
                   <input type="color" value="${color}" class="color-picker-native rgb-zone-picker" data-zone="${zone}" style="width: 36px; height: 36px;">
                   <span style="font-size: 0.675rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted);">${zone}</span>
                 </div>
               `).join('')}
-            </div>
-          </div>
-        </div>
-
-        <!-- Key Remapping -->
-        <div class="grid-2">
-          <div class="card-box">
-            <div class="card-title">
-              <span>Key‑Remapping</span>
-            </div>
-            <div class="keybind-list">
-              ${Object.entries(config.remaps || { "Caps Lock": "Left Ctrl", "F1": "Mute Mic", "F2": "Volume Down", "F3": "Volume Up" }).map(([key, mapped]) => `
-                <div class="keybind-row">
-                  <span class="key-name">${key}</span>
-                  <input type="text" class="custom-input remap-input" data-key="${key}" value="${mapped}" style="width: 140px; padding: 4px 8px; font-size: 0.8rem;">
-                </div>
-              `).join('')}
-            </div>
-          </div>
-
-          <div class="card-box">
-            <div class="card-title">
-              <span>Makro‑Zuweisung</span>
-            </div>
-            <div class="keybind-list">
-              <div class="keybind-row">
-                <span class="key-name">Makrotaste M1</span>
-                <select class="custom-select" style="width: 140px; padding: 4px 8px; font-size: 0.8rem;">
-                  <option>Build Macro</option>
-                  <option>Schnellfeuer</option>
-                  <option>Kein Makro</option>
-                </select>
-              </div>
-              <div class="keybind-row">
-                <span class="key-name">Makrotaste M2</span>
-                <select class="custom-select" style="width: 140px; padding: 4px 8px; font-size: 0.8rem;">
-                  <option>Discord Mute</option>
-                  <option>Clip aufnehmen</option>
-                  <option>Kein Makro</option>
-                </select>
-              </div>
             </div>
           </div>
         </div>
@@ -178,15 +135,6 @@ export class KeyboardModule {
         const device = this.deviceManager.getActiveDevice();
         const rgbZones = { ...device.config.rgbZones, [zone]: e.target.value };
         this.deviceManager.updateActiveConfig({ rgbZones });
-      });
-    });
-
-    container.querySelectorAll(".remap-input").forEach(input => {
-      input.addEventListener("change", (e) => {
-        const key = e.target.dataset.key;
-        const device = this.deviceManager.getActiveDevice();
-        const remaps = { ...device.config.remaps, [key]: e.target.value };
-        this.deviceManager.updateActiveConfig({ remaps });
       });
     });
   }

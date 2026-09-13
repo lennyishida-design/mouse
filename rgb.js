@@ -1,6 +1,5 @@
 /**
- * Antigravity RGB Lighting & Chroma Module
- * Color Picker, Presets, Effects (Static, Breathing, Wave, Spectrum, Reactive), Global Sync
+ * Antigravity RGB Lighting & AIMO Chroma Module
  */
 
 export class RgbModule {
@@ -13,30 +12,30 @@ export class RgbModule {
   }
 
   isSupported(device) {
-    return true; // Supported on all configurable devices
+    return true;
   }
 
   render(container) {
     const device = this.deviceManager.getActiveDevice();
     const config = device.config.rgb || {
-      effect: "breathing",
-      color: "#10b981",
+      effect: "wave",
+      color: "#00e5ff",
       brightness: 100,
-      speed: 50,
-      syncEnabled: false
+      speed: 60,
+      syncEnabled: true
     };
 
     container.innerHTML = `
       <div class="module-panel">
         <div class="panel-header">
           <div>
-            <h2 class="panel-title">RGB & Chroma‑Beleuchtung</h2>
-            <p class="panel-desc">Farben, dynamische Lichteffekte und geräteübergreifende Synchronisation</p>
+            <h2 class="panel-title">${device.name} — AIMO RGB</h2>
+            <p class="panel-desc">Intelligente AIMO-Lichteffekte, Einzelfarben und globale Synchronisation</p>
           </div>
         </div>
 
         <div class="grid-2">
-          <!-- RGB Live Preview & Effect Selector -->
+          <!-- RGB Live Preview -->
           <div class="card-box">
             <div class="card-title">
               <span>Licht‑Vorschau</span>
@@ -52,11 +51,10 @@ export class RgbModule {
               <span>Lichteffekt</span>
             </div>
             <select id="rgb-effect-select" class="custom-select">
+              <option value="wave" ${config.effect === 'wave' ? 'selected' : ''}>AIMO / Welle (Wave)</option>
               <option value="static" ${config.effect === 'static' ? 'selected' : ''}>Statisch (Static)</option>
               <option value="breathing" ${config.effect === 'breathing' ? 'selected' : ''}>Atmen (Breathing)</option>
-              <option value="wave" ${config.effect === 'wave' ? 'selected' : ''}>Welle (Wave)</option>
               <option value="spectrum" ${config.effect === 'spectrum' ? 'selected' : ''}>Farbspektrum (Spectrum)</option>
-              <option value="reactive" ${config.effect === 'reactive' ? 'selected' : ''}>Reaktiv (Reactive)</option>
               <option value="off" ${config.effect === 'off' ? 'selected' : ''}>Ausgeschaltet (Off)</option>
             </select>
           </div>
@@ -64,19 +62,18 @@ export class RgbModule {
           <!-- Color Chooser & Parameters -->
           <div class="card-box">
             <div class="card-title">
-              <span>Primärfarbe</span>
+              <span>Farbauswahl</span>
             </div>
             
             <div class="color-input-wrapper">
               <input type="color" id="rgb-color-picker" class="color-picker-native" value="${config.color}">
               <div class="color-palette-presets">
-                ${["#10b981", "#3b82f6", "#8b5cf6", "#ec4899", "#ef4444", "#f59e0b", "#ffffff"].map(c => `
+                ${["#00e5ff", "#ff0055", "#10b981", "#3b82f6", "#8b5cf6", "#ffaa00", "#ffffff"].map(c => `
                   <button class="palette-btn" data-color="${c}" style="background-color: ${c};" title="${c}"></button>
                 `).join('')}
               </div>
             </div>
 
-            <!-- Brightness & Speed -->
             <div class="slider-group" style="margin-top: 12px;">
               <div style="display: flex; justify-content: space-between;">
                 <span style="font-size: 0.75rem; color: var(--text-muted);">Helligkeit</span>
@@ -93,11 +90,10 @@ export class RgbModule {
               <input type="range" min="10" max="100" step="1" value="${config.speed}" class="range-slider" id="speed-slider">
             </div>
 
-            <!-- Global Sync Toggle -->
             <div class="switch-control" style="margin-top: 14px;">
               <div>
-                <div class="switch-label">Alle Geräte synchronisieren</div>
-                <div style="font-size: 0.725rem; color: var(--text-light);">Farbe & Effekt auf das gesamte Setup übertragen</div>
+                <div class="switch-label">AIMO Setup-Sync</div>
+                <div style="font-size: 0.725rem; color: var(--text-light);">Farbe auf alle verbundenen Geräte spiegeln</div>
               </div>
               <label class="toggle-switch">
                 <input type="checkbox" id="sync-all-toggle" ${config.syncEnabled ? 'checked' : ''}>
@@ -187,15 +183,13 @@ export class RgbModule {
 
   startAnimation(container) {
     if (this.animationId) cancelAnimationFrame(this.animationId);
-
     const glow = container.querySelector("#rgb-glow-element");
     if (!glow) return;
 
     let step = 0;
-
     const loop = () => {
       const device = this.deviceManager.getActiveDevice();
-      const rgb = device.config.rgb || { effect: "breathing", color: "#10b981", brightness: 80, speed: 50 };
+      const rgb = device.config.rgb || { effect: "wave", color: "#00e5ff", brightness: 80, speed: 50 };
       step += (rgb.speed / 50) * 0.04;
 
       if (rgb.effect === "off") {
@@ -211,15 +205,10 @@ export class RgbModule {
         const hue = (step * 50) % 360;
         glow.style.background = `hsl(${hue}, 100%, 50%)`;
         glow.style.opacity = `${rgb.brightness / 100}`;
-      } else if (rgb.effect === "reactive") {
-        const pulse = Math.abs(Math.sin(step * 2));
-        glow.style.background = rgb.color;
-        glow.style.opacity = `${(pulse * (rgb.brightness / 100)).toFixed(2)}`;
       }
 
       this.animationId = requestAnimationFrame(loop);
     };
-
     loop();
   }
 }

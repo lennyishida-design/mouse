@@ -1,6 +1,5 @@
 /**
- * Antigravity Headset Configuration Module
- * EQ Presets, 5-Band Graphic Equalizer, Mic Gain, Noise Reduction, Spatial Audio
+ * Headset Configuration Module
  */
 
 export class HeadsetModule {
@@ -24,8 +23,8 @@ export class HeadsetModule {
       <div class="module-panel">
         <div class="panel-header">
           <div>
-            <h2 class="panel-title">Headset & Akustik</h2>
-            <p class="panel-desc">THX Spatial Audio, Equalizer‑Profile und Mikrofonfilter</p>
+            <h2 class="panel-title">${device.name}</h2>
+            <p class="panel-desc">3D Audio, Equalizer‑Profile und Superhuman Hearing</p>
           </div>
         </div>
 
@@ -38,8 +37,7 @@ export class HeadsetModule {
                 <option value="gaming" ${config.eqPreset === 'gaming' ? 'selected' : ''}>Gaming</option>
                 <option value="esports" ${config.eqPreset === 'esports' ? 'selected' : ''}>Esports / FPS</option>
                 <option value="music" ${config.eqPreset === 'music' ? 'selected' : ''}>Musik</option>
-                <option value="movie" ${config.eqPreset === 'movie' ? 'selected' : ''}>Film</option>
-                <option value="custom" ${config.eqPreset === 'custom' ? 'selected' : ''}>Benutzerdefiniert</option>
+                <option value="custom" ${config.eqPreset === 'custom' ? 'selected' : ''}>Custom</option>
               </select>
             </div>
 
@@ -70,7 +68,7 @@ export class HeadsetModule {
             <div class="switch-control" style="margin-top: 14px;">
               <div>
                 <div class="switch-label">Aktive Rauschunterdrückung</div>
-                <div style="font-size: 0.725rem; color: var(--text-light);">Tastaturgeräusche und Lüfterrauschen eliminieren</div>
+                <div style="font-size: 0.725rem; color: var(--text-light);">Hintergrundgeräusche filtern</div>
               </div>
               <label class="toggle-switch">
                 <input type="checkbox" id="noise-reduction-toggle" ${config.noiseReduction ? 'checked' : ''}>
@@ -80,8 +78,8 @@ export class HeadsetModule {
 
             <div class="switch-control" style="margin-top: 14px;">
               <div>
-                <div class="switch-label">Spatial Audio 7.1 Surround</div>
-                <div style="font-size: 0.725rem; color: var(--text-light);">Präzise ortbare 360° Klangkulisse</div>
+                <div class="switch-label">3D Spatial Sound / 7.1</div>
+                <div style="font-size: 0.725rem; color: var(--text-light);">Präzise 360° Klangortung</div>
               </div>
               <label class="toggle-switch">
                 <input type="checkbox" id="spatial-toggle" ${config.spatialAudio ? 'checked' : ''}>
@@ -104,7 +102,6 @@ export class HeadsetModule {
       gaming: { "64Hz": 4, "250Hz": 2, "1kHz": 0, "4kHz": 4, "16kHz": 3 },
       esports: { "64Hz": -3, "250Hz": -1, "1kHz": 2, "4kHz": 6, "16kHz": 4 },
       music: { "64Hz": 5, "250Hz": 3, "1kHz": 0, "4kHz": 2, "16kHz": 5 },
-      movie: { "64Hz": 6, "250Hz": 4, "1kHz": -1, "4kHz": 3, "16kHz": 2 },
       custom: { "64Hz": 0, "250Hz": 0, "1kHz": 0, "4kHz": 0, "16kHz": 0 }
     };
 

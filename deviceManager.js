@@ -1,72 +1,75 @@
 /**
  * Antigravity Device Manager
- * Handles hardware detection (MediaDevices, Gamepad API), JSON profiles & persistence.
+ * Universal hardware management with Roccat Kain 120/200 AIMO & gaming presets.
  */
 
 export const BASE_PRESET_DEVICES = [
   {
-    id: "preset-mouse-pro",
-    name: "Antigravity Viper Pro",
+    id: "mouse-roccat-kain",
+    name: "ROCCAT Kain 120 / 200 AIMO",
     type: "mouse",
     icon: "🖱️",
     isDetected: false,
-    source: "Profil",
+    source: "Roccat Titan Suite",
     capabilities: ["mouse", "rgb"],
     config: {
-      dpi: 1600,
-      dpiStages: [400, 800, 1600, 3200, 6400],
-      activeStage: 2,
+      dpi: 800,
+      dpiStages: [400, 800, 1200, 1600, 3200, 16000],
+      activeStage: 1,
       pollingRate: 1000,
       liftOffDistance: 1.0,
+      debounceTime: 0, // Zero Debounce / Drag Click Mode (0ms - 10ms)
+      angleSnapping: false,
+      titanClickTuning: true,
       keybinds: {
-        "Taste 1 (Links)": "Left Click",
-        "Taste 2 (Rechts)": "Right Click",
-        "Taste 3 (Mitte)": "Middle Click",
-        "Taste 4 (Daumen 1)": "Browser Back",
-        "Taste 5 (Daumen 2)": "Browser Forward",
-        "DPI Switch": "Cycle DPI"
+        "Titan Click Links": "Left Click",
+        "Titan Click Rechts": "Right Click",
+        "Titan Wheel Scroll": "Middle Click",
+        "Easy-Shift / Daumen 1": "Browser Back",
+        "Daumen 2": "Browser Forward",
+        "DPI Taste": "Cycle DPI"
       },
       macros: [
-        { name: "Fast Tap", keys: ["Click Left", "Delay 30ms", "Click Left"] }
+        { name: "Butterfly Click", keys: ["Click Left", "Delay 10ms", "Click Left"] }
       ],
       rgb: {
-        effect: "breathing",
-        color: "#10b981",
-        brightness: 80,
-        speed: 50,
+        effect: "wave",
+        color: "#00e5ff", // Roccat Cyan / AIMO
+        brightness: 100,
+        speed: 60,
         syncEnabled: true
       }
     }
   },
   {
-    id: "preset-kb-analog",
-    name: "Antigravity Huntsman Analog",
+    id: "kb-vulcan-pro",
+    name: "ROCCAT Vulcan Pro TKL",
     type: "keyboard",
     icon: "⌨️",
     isDetected: false,
-    source: "Profil",
+    source: "Titan Optical Suite",
     capabilities: ["keyboard", "rgb"],
     config: {
-      actuationPoint: 1.2,
+      actuationPoint: 1.0,
       rapidTriggerEnabled: true,
-      rapidTriggerSensitivity: 0.15,
+      rapidTriggerSensitivity: 0.1,
       snapTapEnabled: true,
       remaps: {
-        "Caps Lock": "Left Ctrl",
+        "Caps Lock": "Easy-Shift[+]",
         "F1": "Mute Mic",
         "F2": "Volume Down",
         "F3": "Volume Up"
       },
       macros: [],
       rgbZones: {
-        wasd: "#3b82f6",
-        arrows: "#3b82f6",
-        main: "#10b981",
-        functionKeys: "#f59e0b"
+        wasd: "#00e5ff",
+        arrows: "#00e5ff",
+        main: "#ff0055",
+        functionKeys: "#ffaa00"
       },
       rgb: {
         effect: "wave",
-        color: "#3b82f6",
+        color: "#00e5ff",
         brightness: 100,
         speed: 70,
         syncEnabled: true
@@ -74,52 +77,52 @@ export const BASE_PRESET_DEVICES = [
     }
   },
   {
-    id: "preset-headset-blackshark",
-    name: "Antigravity Spatial Headset",
+    id: "preset-headset-syn",
+    name: "ROCCAT Syn Pro Air 3D",
     type: "headset",
     icon: "🎧",
     isDetected: false,
-    source: "Profil",
+    source: "Superhuman Hearing",
     capabilities: ["headset", "rgb"],
     config: {
-      eqPreset: "gaming",
-      eqBands: { "64Hz": 3, "250Hz": 1, "1kHz": 0, "4kHz": 4, "16kHz": 2 },
-      micGain: 80,
+      eqPreset: "esports",
+      eqBands: { "64Hz": 3, "250Hz": 1, "1kHz": 2, "4kHz": 5, "16kHz": 3 },
+      micGain: 85,
       noiseReduction: true,
-      sidetone: 20,
+      sidetone: 25,
       spatialAudio: true,
       rgb: {
-        effect: "static",
-        color: "#8b5cf6",
-        brightness: 70,
-        speed: 0,
+        effect: "breathing",
+        color: "#00e5ff",
+        brightness: 80,
+        speed: 40,
         syncEnabled: true
       }
     }
   },
   {
-    id: "preset-gamepad-elite",
-    name: "Antigravity Apex Wireless Controller",
+    id: "preset-gamepad-apex",
+    name: "Antigravity Pro Controller",
     type: "gamepad",
     icon: "🎮",
     isDetected: false,
-    source: "Profil",
+    source: "Gamepad Suite",
     capabilities: ["gamepad", "rgb"],
     config: {
-      leftDeadzone: 5, // %
-      rightDeadzone: 5, // %
-      leftTriggerActuation: 10, // %
-      rightTriggerActuation: 10, // %
-      vibrationStrength: 80, // %
+      leftDeadzone: 4,
+      rightDeadzone: 4,
+      leftTriggerActuation: 8,
+      rightTriggerActuation: 8,
+      vibrationStrength: 85,
       paddles: {
-        "Paddle P1": "A (Springen)",
-        "Paddle P2": "B (Ducken)",
-        "Paddle P3": "X (Nachladen)",
-        "Paddle P4": "Y (Waffenwechsel)"
+        "Paddle P1": "A (Jump)",
+        "Paddle P2": "B (Crouch)",
+        "Paddle P3": "X (Reload)",
+        "Paddle P4": "Y (Switch)"
       },
       rgb: {
         effect: "breathing",
-        color: "#ec4899",
+        color: "#00e5ff",
         brightness: 90,
         speed: 40,
         syncEnabled: false
@@ -137,19 +140,19 @@ export class DeviceManager {
   }
 
   loadDevices() {
-    const saved = localStorage.getItem("antigravity_devices");
+    const saved = localStorage.getItem("antigravity_devices_kain");
     if (saved) {
       try {
         return JSON.parse(saved);
       } catch (e) {
-        console.error("Fehler beim Laden gespeicherter Profile", e);
+        console.error("Fehler beim Laden", e);
       }
     }
     return JSON.parse(JSON.stringify(BASE_PRESET_DEVICES));
   }
 
   saveDevices() {
-    localStorage.setItem("antigravity_devices", JSON.stringify(this.devices));
+    localStorage.setItem("antigravity_devices_kain", JSON.stringify(this.devices));
   }
 
   getDevices() {
@@ -174,20 +177,16 @@ export class DeviceManager {
     }
   }
 
-  // --- Hardware Detection Systems ---
   async scanHardware() {
     let detectedList = [];
 
-    // 1. Audio MediaDevices (Headsets, Mics, Speakers)
     if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
       try {
         const mediaDevices = await navigator.mediaDevices.enumerateDevices();
         const audioDevices = mediaDevices.filter(d => d.kind === "audiooutput" || d.kind === "audioinput");
-        
-        // Group distinct physical audio devices
         const seenLabels = new Set();
         audioDevices.forEach(d => {
-          const label = d.label || (d.kind === "audiooutput" ? "Audioausgabegerät" : "Audioeingabegerät");
+          const label = d.label || (d.kind === "audiooutput" ? "Audioausgabe" : "Audioeingabe");
           if (!seenLabels.has(label) && label !== "") {
             seenLabels.add(label);
             detectedList.push({
@@ -196,7 +195,7 @@ export class DeviceManager {
               type: "headset",
               icon: "🎧",
               isDetected: true,
-              source: "Hardware (MediaDevices)",
+              source: "Hardware Audio",
               capabilities: ["headset", "rgb"],
               config: {
                 eqPreset: "gaming",
@@ -205,50 +204,43 @@ export class DeviceManager {
                 noiseReduction: true,
                 sidetone: 15,
                 spatialAudio: true,
-                rgb: { effect: "static", color: "#3b82f6", brightness: 70, speed: 0, syncEnabled: true }
+                rgb: { effect: "static", color: "#00e5ff", brightness: 70, speed: 0, syncEnabled: true }
               }
             });
           }
         });
       } catch (err) {
-        console.warn("MediaDevices detection warning:", err);
+        console.warn("Hardware scan warning:", err);
       }
     }
 
-    // 2. Gamepad API
     if (navigator.getGamepads) {
       const gamepads = navigator.getGamepads();
       for (const gp of gamepads) {
         if (gp) {
           detectedList.push({
             id: `hw-gamepad-${gp.index}`,
-            name: gp.id.replace(/\(.*?\)/g, "").trim() || `Gamepad #${gp.index + 1}`,
+            name: gp.id.replace(/\(.*?\)/g, "").trim() || `Controller #${gp.index + 1}`,
             type: "gamepad",
             icon: "🎮",
             isDetected: true,
             gamepadIndex: gp.index,
-            source: "Hardware (Gamepad API)",
+            source: "Gamepad API",
             capabilities: ["gamepad", "rgb"],
             config: {
               leftDeadzone: 4,
               rightDeadzone: 4,
               leftTriggerActuation: 8,
               rightTriggerActuation: 8,
-              vibrationStrength: 100,
-              paddles: {
-                "Paddle P1": "A",
-                "Paddle P2": "B",
-                "Paddle P3": "X",
-                "Paddle P4": "Y"
-              },
-              rgb: { effect: "breathing", color: "#10b981", brightness: 90, speed: 50, syncEnabled: false }
+              vibrationStrength: 90,
+              paddles: { "Paddle P1": "A", "Paddle P2": "B", "Paddle P3": "X", "Paddle P4": "Y" },
+              rgb: { effect: "breathing", color: "#00e5ff", brightness: 90, speed: 50, syncEnabled: false }
             }
           });
         }
       }
     }
 
-    // Merge detected devices without overwriting user customizations if already present
     detectedList.forEach(detected => {
       const existingIdx = this.devices.findIndex(d => d.id === detected.id || (d.isDetected && d.name === detected.name));
       if (existingIdx >= 0) {
@@ -264,23 +256,11 @@ export class DeviceManager {
   }
 
   setupHardwareDetection() {
-    // Initial scan
     this.scanHardware();
-
-    // Listen for Gamepad Connections
-    window.addEventListener("gamepadconnected", () => {
-      this.scanHardware();
-    });
-
-    window.addEventListener("gamepaddisconnected", () => {
-      this.scanHardware();
-    });
-
-    // Listen for MediaDevice Changes (USB Headset plugged/unplugged)
+    window.addEventListener("gamepadconnected", () => this.scanHardware());
+    window.addEventListener("gamepaddisconnected", () => this.scanHardware());
     if (navigator.mediaDevices && navigator.mediaDevices.addEventListener) {
-      navigator.mediaDevices.addEventListener("devicechange", () => {
-        this.scanHardware();
-      });
+      navigator.mediaDevices.addEventListener("devicechange", () => this.scanHardware());
     }
   }
 
@@ -289,7 +269,7 @@ export class DeviceManager {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(device, null, 2));
     const downloadAnchor = document.createElement("a");
     downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", `${device.id}_antigravity.json`);
+    downloadAnchor.setAttribute("download", `${device.id}_kain_profile.json`);
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
@@ -298,7 +278,7 @@ export class DeviceManager {
   importProfile(jsonString) {
     try {
       const imported = JSON.parse(jsonString);
-      if (!imported.id || !imported.config) throw new Error("Ungültiges Profil");
+      if (!imported.id || !imported.config) throw new Error("Ungültiges Format");
       const idx = this.devices.findIndex(d => d.id === imported.id);
       if (idx >= 0) {
         this.devices[idx] = imported;

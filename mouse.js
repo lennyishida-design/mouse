@@ -1,12 +1,12 @@
 /**
  * Antigravity Mouse Configuration Module
- * DPI Slider, Polling Rate, Lift-Off-Distance, Keybinds, Macro Editor
+ * Optimized for ROCCAT Kain 120 / 200 AIMO (Debounce Time, Titan Click, Drag Click Mode)
  */
 
 export class MouseModule {
   constructor(deviceManager) {
     this.deviceManager = deviceManager;
-    this.name = "Maus";
+    this.name = "Maus (Kain)";
     this.id = "mouse";
     this.icon = "🖱️";
   }
@@ -23,8 +23,8 @@ export class MouseModule {
       <div class="module-panel">
         <div class="panel-header">
           <div>
-            <h2 class="panel-title">Maus & Sensor‑Leistung</h2>
-            <p class="panel-desc">Optischer Sensor, Abtastrate, Lift‑Off‑Distance und Tastenbelegung</p>
+            <h2 class="panel-title">${device.name} — Sensor & Titan Switch</h2>
+            <p class="panel-desc">Owl-Eye Sensor, Debounce-Time (Drag-Click), Polling-Rate & LOD</p>
           </div>
         </div>
 
@@ -32,17 +32,17 @@ export class MouseModule {
           <!-- DPI Settings -->
           <div class="card-box">
             <div class="card-title">
-              <span>DPI‑Empfindlichkeit</span>
-              <span class="badge-value" id="dpi-val">${config.dpi || 1600} DPI</span>
+              <span>DPI‑Empfindlichkeit (Owl‑Eye Sensor)</span>
+              <span class="badge-value" id="dpi-val">${config.dpi || 800} DPI</span>
             </div>
             <div class="slider-group">
-              <input type="range" min="100" max="30000" step="50" value="${config.dpi || 1600}" class="range-slider" id="dpi-slider">
+              <input type="range" min="100" max="16000" step="50" value="${config.dpi || 800}" class="range-slider" id="dpi-slider">
             </div>
             <div class="card-title" style="margin-top: 8px;">
               <span>DPI‑Stufen</span>
             </div>
             <div class="dpi-stages" id="dpi-stages-container">
-              ${(config.dpiStages || [400, 800, 1600, 3200, 6400]).map((stage, idx) => `
+              ${(config.dpiStages || [400, 800, 1200, 1600, 3200, 16000]).map((stage, idx) => `
                 <button class="dpi-stage-btn ${idx === config.activeStage ? 'active' : ''}" data-stage="${idx}" data-dpi="${stage}">
                   ${stage}
                 </button>
@@ -50,42 +50,80 @@ export class MouseModule {
             </div>
           </div>
 
+          <!-- Debounce Time / Drag Click Tuning -->
+          <div class="card-box">
+            <div class="card-title">
+              <span>Debounce Time (Tastenentprellung)</span>
+              <span class="badge-value" id="debounce-val" style="color: ${config.debounceTime === 0 ? '#10b981' : 'inherit'};">
+                ${config.debounceTime ?? 0} ms ${config.debounceTime === 0 ? '(Drag Click Aktiv)' : ''}
+              </span>
+            </div>
+            <div class="slider-group">
+              <input type="range" min="0" max="10" step="1" value="${config.debounceTime ?? 0}" class="range-slider" id="debounce-slider">
+              <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); margin-top: 2px;">
+                <span>0 ms (Max CPS / Drag Click)</span>
+                <span>10 ms (Standard)</span>
+              </div>
+            </div>
+
+            <div class="switch-control" style="margin-top: 10px;">
+              <div>
+                <div class="switch-label">Titan Click Speed Tuning</div>
+                <div style="font-size: 0.725rem; color: var(--text-light);">Reaktionszeit der opto-mechanischen Schalter maximieren</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="titan-toggle" ${config.titanClickTuning !== false ? 'checked' : ''}>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
           <!-- Polling & LOD -->
           <div class="card-box">
             <div class="card-title">
               <span>Polling‑Rate (Abtastrate)</span>
             </div>
             <select id="polling-select" class="custom-select">
-              ${[125, 250, 500, 1000, 2000, 4000, 8000].map(rate => `
+              ${[125, 250, 500, 1000].map(rate => `
                 <option value="${rate}" ${config.pollingRate === rate ? 'selected' : ''}>${rate} Hz (${(1000/rate).toFixed(2)}ms)</option>
               `).join('')}
             </select>
 
             <div class="card-title" style="margin-top: 12px;">
-              <span>Lift‑Off‑Distance (LOD)</span>
+              <span>Lift‑Off‑Distance (LOD / DCU)</span>
               <span class="badge-value" id="lod-val">${config.liftOffDistance || 1.0} mm</span>
             </div>
             <div class="slider-group">
               <input type="range" min="0.5" max="3.0" step="0.1" value="${config.liftOffDistance || 1.0}" class="range-slider" id="lod-slider">
             </div>
-          </div>
-        </div>
 
-        <!-- Keybinds & Macro Section -->
-        <div class="grid-2">
-          <!-- Keybinds -->
+            <div class="switch-control" style="margin-top: 10px;">
+              <div>
+                <div class="switch-label">Winkel-Ausrichtung (Angle Snapping)</div>
+                <div style="font-size: 0.725rem; color: var(--text-light);">Sensor-Glättung bei horizontalen Linien</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="angle-snapping-toggle" ${config.angleSnapping ? 'checked' : ''}>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Keybinds & Easy-Shift -->
           <div class="card-box">
             <div class="card-title">
-              <span>Tastenbelegung (Keybinds)</span>
+              <span>Tastenbelegung (Easy‑Shift[+])</span>
             </div>
             <div class="keybind-list">
               ${Object.entries(config.keybinds || {
-                "Taste 1 (Links)": "Left Click",
-                "Taste 2 (Rechts)": "Right Click",
-                "Taste 3 (Mitte)": "Middle Click",
-                "Taste 4 (Daumen 1)": "Browser Back",
-                "Taste 5 (Daumen 2)": "Browser Forward",
-                "DPI Switch": "Cycle DPI"
+                "Titan Click Links": "Left Click",
+                "Titan Click Rechts": "Right Click",
+                "Titan Wheel Scroll": "Middle Click",
+                "Easy-Shift / Daumen 1": "Browser Back",
+                "Daumen 2": "Browser Forward",
+                "DPI Taste": "Cycle DPI"
               }).map(([btnName, action]) => `
                 <div class="keybind-row">
                   <span class="key-name">${btnName}</span>
@@ -96,31 +134,11 @@ export class MouseModule {
                     <option value="Browser Back" ${action === 'Browser Back' ? 'selected' : ''}>Zurück</option>
                     <option value="Browser Forward" ${action === 'Browser Forward' ? 'selected' : ''}>Vorwärts</option>
                     <option value="Cycle DPI" ${action === 'Cycle DPI' ? 'selected' : ''}>DPI-Wechsel</option>
-                    <option value="Fast Tap" ${action === 'Fast Tap' ? 'selected' : ''}>Makro ausführen</option>
+                    <option value="Butterfly Click" ${action === 'Butterfly Click' ? 'selected' : ''}>Butterfly Makro</option>
                     <option value="Disabled" ${action === 'Disabled' ? 'selected' : ''}>Deaktiviert</option>
                   </select>
                 </div>
               `).join('')}
-            </div>
-          </div>
-
-          <!-- Minimal Macro Editor -->
-          <div class="card-box">
-            <div class="card-title">
-              <span>Makro‑Editor</span>
-              <button class="btn btn-secondary btn-sm" id="add-macro-step-btn">+ Schritt</button>
-            </div>
-            <div class="macro-steps" id="macro-steps-list">
-              ${((config.macros && config.macros[0]?.keys) || ["Click Left", "Delay 30ms", "Click Left"]).map((step, idx) => `
-                <div class="macro-step-item">
-                  <span>${step}</span>
-                  <button class="btn btn-ghost btn-sm remove-macro-step" data-idx="${idx}" style="color: #ef4444;">✕</button>
-                </div>
-              `).join('')}
-            </div>
-            <div style="display: flex; gap: 8px; margin-top: 8px;">
-              <input type="text" id="macro-step-input" class="custom-input" placeholder="z.B. Taste [F] oder 20ms" style="flex: 1;">
-              <button class="btn btn-primary btn-sm" id="save-step-btn">Hinzufügen</button>
             </div>
           </div>
         </div>
@@ -154,6 +172,31 @@ export class MouseModule {
       });
     });
 
+    const debounceSlider = container.querySelector("#debounce-slider");
+    const debounceVal = container.querySelector("#debounce-val");
+    if (debounceSlider) {
+      debounceSlider.addEventListener("input", (e) => {
+        const val = parseInt(e.target.value, 10);
+        debounceVal.textContent = `${val} ms ${val === 0 ? '(Drag Click Aktiv)' : ''}`;
+        debounceVal.style.color = val === 0 ? '#10b981' : 'inherit';
+        this.deviceManager.updateActiveConfig({ debounceTime: val });
+      });
+    }
+
+    const titanToggle = container.querySelector("#titan-toggle");
+    if (titanToggle) {
+      titanToggle.addEventListener("change", (e) => {
+        this.deviceManager.updateActiveConfig({ titanClickTuning: e.target.checked });
+      });
+    }
+
+    const angleToggle = container.querySelector("#angle-snapping-toggle");
+    if (angleToggle) {
+      angleToggle.addEventListener("change", (e) => {
+        this.deviceManager.updateActiveConfig({ angleSnapping: e.target.checked });
+      });
+    }
+
     const pollingSelect = container.querySelector("#polling-select");
     if (pollingSelect) {
       pollingSelect.addEventListener("change", (e) => {
@@ -171,43 +214,11 @@ export class MouseModule {
       });
     }
 
-    const keySelects = container.querySelectorAll(".key-action-select");
-    keySelects.forEach(select => {
+    container.querySelectorAll(".key-action-select").forEach(select => {
       select.addEventListener("change", (e) => {
         const device = this.deviceManager.getActiveDevice();
         const keybinds = { ...device.config.keybinds, [select.dataset.btn]: e.target.value };
         this.deviceManager.updateActiveConfig({ keybinds });
-      });
-    });
-
-    const saveStepBtn = container.querySelector("#save-step-btn");
-    const stepInput = container.querySelector("#macro-step-input");
-    if (saveStepBtn && stepInput) {
-      const addStep = () => {
-        const val = stepInput.value.trim();
-        if (!val) return;
-        const device = this.deviceManager.getActiveDevice();
-        const macros = device.config.macros || [{ name: "Standard", keys: [] }];
-        if (!macros[0]) macros[0] = { name: "Standard", keys: [] };
-        macros[0].keys.push(val);
-        this.deviceManager.updateActiveConfig({ macros });
-        stepInput.value = "";
-        this.render(container);
-      };
-      saveStepBtn.addEventListener("click", addStep);
-      stepInput.addEventListener("keydown", (e) => { if (e.key === "Enter") addStep(); });
-    }
-
-    container.querySelectorAll(".remove-macro-step").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const idx = parseInt(btn.dataset.idx, 10);
-        const device = this.deviceManager.getActiveDevice();
-        const macros = device.config.macros;
-        if (macros && macros[0] && macros[0].keys) {
-          macros[0].keys.splice(idx, 1);
-          this.deviceManager.updateActiveConfig({ macros });
-          this.render(container);
-        }
       });
     });
   }
